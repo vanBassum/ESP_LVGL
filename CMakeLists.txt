@@ -2,4 +2,4 @@
 
 idf_component_register(SRCS esp_lvgl.cpp
 	INCLUDE_DIRS "."
-	PRIV_REQUIRES lvgl ESP_Base)
+	REQUIRES lvgl ESP_Base)
