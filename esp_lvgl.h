@@ -3,8 +3,8 @@
 
 #include "widget.h"
 #include "display.h"
+#include "displaymonochrome.h"
 #include "label.h"
 #include "base.h"
 #include "screen.h"
 #include "button.h"
-
