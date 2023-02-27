@@ -49,8 +49,8 @@ void ESP_LVGL::DisplayST7735::Flush_cb(lv_disp_drv_t * disp_drv, const lv_area_t
 	if (glcd == NULL)
 		return;
 	
-	size_t width = area->x2 - area->x1;
-	size_t height = area->y2 - area->y1;
+	size_t width = area->x2 - area->x1 + 1;
+	size_t height = area->y2 - area->y1 + 1;
 	size_t pixels = width * height;
 	glcd->SetWindow(area->x1, area->y1, area->x2, area->y2);
 	glcd->WriteWindow((uint16_t*)color_p, pixels);
