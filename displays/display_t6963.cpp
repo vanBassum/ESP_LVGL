@@ -7,8 +7,8 @@ esp_err_t ESP_LVGL::DisplayT6963C::Init(T6963C* glcd)
 	if (glcd == NULL)
 		return ESP_FAIL;
 			
-	width = glcd->GetWidth();
-	height = glcd->GetHeight();
+	width = glcd->settings.width;
+	height = glcd->settings.width;
 			
 	bufferSize = width * 10;
 	buffer = (uint8_t*)malloc(bufferSize);
