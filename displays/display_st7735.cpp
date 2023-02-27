@@ -49,43 +49,19 @@ void ESP_LVGL::DisplayST7735::Flush_cb(lv_disp_drv_t * disp_drv, const lv_area_t
 	if (glcd == NULL)
 		return;
 	
-	if (0)
-	{
-		size_t width = area->x2 - area->x1;
-		size_t height = area->y2 - area->y1;
-		size_t pixels = width * height;
-		uint16_t buf[pixels];
-		int16_t x, y;
-		for (y = area->y1; y <= area->y2; y++) 
-		{
-			for (x = area->x1; x <= area->x2; x++)
-			{
-				buf[x + y / width] = color_p->full;
-				color_p++;
-			}
-		}
-		glcd->SetWindow(area->x1, area->y1, area->x2, area->y2);
-		glcd->WriteWindow(buf, pixels);
-	}
-	else
-	{
-		int16_t x, y;
-		for (y = area->y1; y <= area->y2; y++) 
-		{
-			for (x = area->x1; x <= area->x2; x++)
-			{
-				uint16_t color = color_p->full;
-				glcd->DrawPixel(x, y, color);
-				color_p++;
-			}
-		}
-	}
+	size_t width = area->x2 - area->x1;
+	size_t height = area->y2 - area->y1;
+	size_t pixels = width * height;
+	glcd->SetWindow(area->x1, area->y1, area->x2, area->y2);
+	glcd->WriteWindow((uint16_t*)color_p, pixels);
 }
 
 
 void ESP_LVGL::DisplayST7735::Round_cb(lv_disp_drv_t * disp_drv, lv_area_t * area)
 {
-
+	area->x1 = 0;
+	area->x2 = glcd->settings.width;
+	area->y2 = area->y1;
 }
 
 
