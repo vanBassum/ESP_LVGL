@@ -1,14 +1,14 @@
-#include "displaymonochrome.h"
+#include "display_t6963.h"
 
 
-esp_err_t ESP_LVGL::DisplayMonochrome::Init(GLCD_Mono* glcdMonochrome)
+esp_err_t ESP_LVGL::DisplayT6963C::Init(T6963C* glcd)
 {
-	glcdMono = glcdMonochrome;
-	if (glcdMono == NULL)
+	this->glcd = glcd;
+	if (glcd == NULL)
 		return ESP_FAIL;
 			
-	width = glcdMono->GetWidth();
-	height = glcdMono->GetHeight();
+	width = glcd->GetWidth();
+	height = glcd->GetHeight();
 			
 	bufferSize = width * 10;
 	buffer = (uint8_t*)malloc(bufferSize);
@@ -22,15 +22,15 @@ esp_err_t ESP_LVGL::DisplayMonochrome::Init(GLCD_Mono* glcdMonochrome)
 	disp_drv.ver_res = height;
 	disp_drv.user_data = this;
 	disp_drv.flush_cb = [](lv_disp_drv_t * disp_drv, const lv_area_t * area, lv_color_t * color_p) {
-		DisplayMonochrome* instance = (DisplayMonochrome*)disp_drv->user_data;
-		instance->Flush_cb_mono(disp_drv, area, color_p);
+		DisplayT6963C* instance = (DisplayT6963C*)disp_drv->user_data;
+		instance->Flush_cb(disp_drv, area, color_p);
 		lv_disp_flush_ready(disp_drv);
 	};
 	
 	//Always write complete lines.
 	disp_drv.rounder_cb = [](lv_disp_drv_t * disp_drv, lv_area_t * a) {	
-		DisplayMonochrome* instance = (DisplayMonochrome*)disp_drv->user_data;
-		instance->Round_cb_mono(disp_drv, a);
+		DisplayT6963C* instance = (DisplayT6963C*)disp_drv->user_data;
+		instance->Round_cb(disp_drv, a);
 		lv_disp_flush_ready(disp_drv);
 	};
 	
@@ -43,15 +43,15 @@ esp_err_t ESP_LVGL::DisplayMonochrome::Init(GLCD_Mono* glcdMonochrome)
 	return ESP_OK;
 }
 
-void ESP_LVGL::DisplayMonochrome::Round_cb_mono(lv_disp_drv_t * disp_drv, lv_area_t * a)
+void ESP_LVGL::DisplayT6963C::Round_cb(lv_disp_drv_t * disp_drv, lv_area_t * a)
 {
 	a->x1 = 0;
 	a->x2 = width;	
 }
 
-void ESP_LVGL::DisplayMonochrome::Flush_cb_mono(lv_disp_drv_t * disp_drv, const lv_area_t * area, lv_color_t * color_p)
+void ESP_LVGL::DisplayT6963C::Flush_cb(lv_disp_drv_t * disp_drv, const lv_area_t * area, lv_color_t * color_p)
 {
-	if (glcdMono == NULL)
+	if (glcd == NULL)
 		return;
 	int32_t x, y;
 	//Rounder ensures a whole line always needs to be updated.
@@ -72,7 +72,7 @@ void ESP_LVGL::DisplayMonochrome::Flush_cb_mono(lv_disp_drv_t * disp_drv, const 
 			}
 			color_p++;
 		}
-		glcdMono->WriteRow(y, buf, 30);
+		glcd->WriteRow(y, buf, 30);
 	}
 }
 
