@@ -19,7 +19,7 @@ namespace ESP_LVGL
 		{
 			lv_init();
 			task.Init("LVGL", 2, 2048 * 4);
-			task.Bind([](Task& t, void* args) {
+			task.Bind([](Task* t, void* args) {
 				while (1)
 				{
 					mutex.Take();
@@ -31,7 +31,7 @@ namespace ESP_LVGL
 			task.Run();
 			
 			timer.Init("LVGL", TimeSpan(LVGL_TIMER_TICK_MS));
-			timer.Bind([](Timer& t) { lv_tick_inc(t.GetPeriod().GetMiliSeconds()); });
+			timer.Bind([](Timer* t) { lv_tick_inc(t->GetPeriod().GetMiliSeconds()); });
 			timer.Start();
 
 			return ESP_OK;
