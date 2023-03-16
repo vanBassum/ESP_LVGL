@@ -8,10 +8,10 @@ namespace ESP_LVGL
 	{
 		
 	public:		
-		virtual esp_err_t Init(Widget& parent) override
+		virtual esp_err_t Init(Widget* parent) override
 		{
 			LVGL::mutex.Take();
-			handle = lv_label_create(parent.handle);
+			handle = lv_label_create(parent->handle);
 			handle->user_data = this;
 			lv_label_set_text(handle, "Label");
 			lv_obj_set_pos(handle, 0, 0);

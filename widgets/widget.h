@@ -16,7 +16,7 @@ namespace ESP_LVGL
 				lv_obj_del_async(handle);
 		}
 		
-		virtual esp_err_t Init(Widget& parent) = 0; 
+		virtual esp_err_t Init(Widget* parent) = 0; 
 		
 		void SetPosition(int x, int y)
 		{
@@ -35,6 +35,11 @@ namespace ESP_LVGL
 			LVGL::mutex.Take();
 			lv_obj_set_size(handle, width, height);
 			LVGL::mutex.Give();
+		}
+		
+		void SetAlign(lv_align_t align, lv_coord_t x_ofs, lv_coord_t y_ofs)
+		{
+			lv_obj_align(handle, align, x_ofs, y_ofs);
 		}
 	};
 }

@@ -2,5 +2,5 @@
 
 idf_component_register(
 	SRCS esp_lvgl.cpp displays/display_t6963.cpp displays/display_st7735.cpp
-	INCLUDE_DIRS "." "displays"
+	INCLUDE_DIRS "." "displays" "widgets"
 	REQUIRES lvgl ESP_Base ESP_Drivers)

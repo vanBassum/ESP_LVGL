@@ -15,7 +15,7 @@ namespace ESP_LVGL
 			return ESP_OK;
 		}
 		
-		esp_err_t Init(Display& display)
+		esp_err_t Init(Display* display)
 		{
 			//TODO:
 			//handle = ...
@@ -23,7 +23,7 @@ namespace ESP_LVGL
 			return ESP_FAIL;
 		}
 		
-		virtual esp_err_t Init(Widget& parent) override
+		virtual esp_err_t Init(Widget* parent) override
 		{
 			return ESP_FAIL;
 		}
