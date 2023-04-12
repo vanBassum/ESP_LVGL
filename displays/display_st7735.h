@@ -2,8 +2,6 @@
 #include "display.h"
 #include "esp_drivers.h"
 
-using namespace ESP_Drivers;
-
 namespace ESP_LVGL
 {
 

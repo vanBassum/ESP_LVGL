@@ -1,9 +1,7 @@
 #pragma once
 #include "esp_system.h"
-#include "esp_base.h"
+#include "kernel.h"
 #include "lvgl.h"
-
-using namespace ESP_Base;
 
 namespace ESP_LVGL
 {

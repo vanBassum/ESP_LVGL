@@ -1,8 +1,6 @@
 #pragma once
 #include "display.h"
 
-using namespace ESP_Drivers;
-
 namespace ESP_LVGL
 {
 
