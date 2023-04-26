@@ -16,7 +16,7 @@ namespace ESP_LVGL
 				lv_obj_del_async(handle);
 		}
 		
-		virtual esp_err_t Init(Widget* parent) = 0; 
+		virtual bool Init(Widget* parent) = 0; 
 		
 		void SetPosition(int x, int y)
 		{

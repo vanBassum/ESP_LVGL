@@ -9,23 +9,23 @@ namespace ESP_LVGL
 	{
 	public:
 		
-		esp_err_t Init()
+		bool Init()
 		{
 			handle = lv_scr_act();
-			return ESP_OK;
+			return true;
 		}
 		
-		esp_err_t Init(Display* display)
+		bool Init(Display* display)
 		{
 			//TODO:
 			//handle = ...
 			//return ESP_OK;
-			return ESP_FAIL;
+			return false;
 		}
 		
-		virtual esp_err_t Init(Widget* parent) override
+		virtual bool Init(Widget* parent) override
 		{
-			return ESP_FAIL;
+			return true;
 		}
 	};
 }

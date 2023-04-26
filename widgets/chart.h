@@ -7,13 +7,13 @@ namespace ESP_LVGL
 	class Chart : public Widget
 	{
 	public:		
-		virtual esp_err_t Init(Widget* parent) override
+		virtual bool Init(Widget* parent) override
 		{
 			LVGL::mutex.Take();
 			handle = lv_chart_create(parent->handle);
 			handle->user_data = this;
 			LVGL::mutex.Give();
-			return ESP_OK;
+			return true;
 		}
 		
 		void SetType(lv_chart_type_t type)
@@ -42,13 +42,13 @@ namespace ESP_LVGL
 		Chart* parent = NULL;
 		lv_chart_series_t* handle = NULL;
 	public:		
-		esp_err_t Init(Chart* parent, lv_color_t color, lv_chart_axis_t axis)
+		bool Init(Chart* parent, lv_color_t color, lv_chart_axis_t axis)
 		{
 			LVGL::mutex.Take();
 			this->parent = parent;
 			handle = lv_chart_add_series(parent->handle, color, axis);
 			LVGL::mutex.Give();
-			return ESP_OK;
+			return true;
 		}
 		
 		void SetYArray(lv_coord_t* points)

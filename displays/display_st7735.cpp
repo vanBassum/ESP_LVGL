@@ -1,11 +1,11 @@
 #include "display_st7735.h"
 
 
-esp_err_t ESP_LVGL::DisplayST7735::Init(ST7735* glcd)
+bool ESP_LVGL::DisplayST7735::Init(ST7735* glcd)
 {
 	this->glcd = glcd;
 	if (glcd == NULL)
-		return ESP_FAIL;
+		return false;
 			
 	width = glcd->settings.width;
 	height = glcd->settings.width;
@@ -13,7 +13,7 @@ esp_err_t ESP_LVGL::DisplayST7735::Init(ST7735* glcd)
 	bufferSize = width * 10;
 	buffer = (uint8_t*)malloc(bufferSize);
 	if (buffer == NULL)
-		return ESP_FAIL;
+		return false;
 			
 	lv_disp_draw_buf_init(&disp_buf, buffer, NULL, bufferSize);
 	lv_disp_drv_init(&disp_drv);			
@@ -40,7 +40,7 @@ esp_err_t ESP_LVGL::DisplayST7735::Init(ST7735* glcd)
 	//};
 
 	disp = lv_disp_drv_register(&disp_drv); 
-	return ESP_OK;
+	return true;
 }
 
 

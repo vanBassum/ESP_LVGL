@@ -13,7 +13,7 @@ namespace ESP_LVGL
 		static Task  task;
 		static Timer timer;
 				
-		static esp_err_t Init()
+		static bool Init()
 		{
 			lv_init();
 			task.Init("LVGL", 2, 2048 * 4);
@@ -32,7 +32,7 @@ namespace ESP_LVGL
 			timer.Bind([](Timer* t) { lv_tick_inc(t->GetPeriod().GetMiliSeconds()); });
 			timer.Start();
 
-			return ESP_OK;
+			return true;
 		}
 	}	
 }

@@ -1,11 +1,11 @@
 #include "display_t6963.h"
 
 
-esp_err_t ESP_LVGL::DisplayT6963C::Init(T6963C* glcd)
+bool ESP_LVGL::DisplayT6963C::Init(T6963C* glcd)
 {
 	this->glcd = glcd;
 	if (glcd == NULL)
-		return ESP_FAIL;
+		return false;
 			
 	width = glcd->settings.width;
 	height = glcd->settings.width;
@@ -13,7 +13,7 @@ esp_err_t ESP_LVGL::DisplayT6963C::Init(T6963C* glcd)
 	bufferSize = width * 10;
 	buffer = (uint8_t*)malloc(bufferSize);
 	if (buffer == NULL)
-		return ESP_FAIL;
+		return false;
 			
 	lv_disp_draw_buf_init(&disp_buf, buffer, NULL, bufferSize);
 	lv_disp_drv_init(&disp_drv);			
@@ -40,7 +40,7 @@ esp_err_t ESP_LVGL::DisplayT6963C::Init(T6963C* glcd)
 	//};
 
 	disp = lv_disp_drv_register(&disp_drv); 
-	return ESP_OK;
+	return true;
 }
 
 void ESP_LVGL::DisplayT6963C::Round_cb(lv_disp_drv_t * disp_drv, lv_area_t * a)
@@ -59,8 +59,8 @@ void ESP_LVGL::DisplayT6963C::Flush_cb(lv_disp_drv_t * disp_drv, const lv_area_t
 	for (y = area->y1; y <= area->y2; y++) 
 	{
 		for (x = area->x1; x <= area->x2; x++)
-		{
-			bool color = lv_color_brightness(*color_p) < 128;
+		{			
+			bool color = lv_color_brightness(*color_p) < 128;	
 			uint8_t col = x >> 3;
 			uint8_t pixel = x & 0x07;
 			uint8_t mask = 1 << (7 - pixel);

@@ -21,6 +21,6 @@ namespace ESP_LVGL
 		void Flush_cb(lv_disp_drv_t * disp_drv, const lv_area_t * area, lv_color_t * color_p);
 		void Round_cb(lv_disp_drv_t * disp_drv, lv_area_t * a);
 	public:
-		esp_err_t Init(ST7735* glcd);
+		bool Init(ST7735* glcd);
 	};
 }
