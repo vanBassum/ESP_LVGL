@@ -6,15 +6,19 @@ namespace ESP_LVGL
 {
 	class Button : public Widget
 	{
-		
-	public:		
-		virtual bool Init(Widget* parent) override
+	public:
+		bool Init(Widget* parent)
 		{
-			LVGL::mutex.Take();
-			handle = lv_btn_create(parent->handle);
-			handle->user_data = this;
-			LVGL::mutex.Give();
-			return true;
+			auto lambda = [](Widget* _parent, lv_obj_t** _handle) 
+			{
+				*_handle = lv_btn_create(_parent->handle);
+			};
+			InitSafely(lambda, parent, &handle);
+			return handle != NULL;
 		}
+
+
 	};
 }
+
+

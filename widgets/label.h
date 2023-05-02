@@ -6,40 +6,33 @@ namespace ESP_LVGL
 {
 	class Label : public Widget
 	{
-		
-	public:		
-		virtual bool Init(Widget* parent) override
+	public:
+		bool Init(Widget* parent)
 		{
-			LVGL::mutex.Take();
-			handle = lv_label_create(parent->handle);
-			handle->user_data = this;
-			lv_label_set_text(handle, "Label");
-			lv_obj_set_pos(handle, 0, 0);
-			LVGL::mutex.Give();
-			return true;
+			auto lambda = [](Widget* _parent, lv_obj_t** _handle) 
+			{
+				*_handle = lv_label_create(_parent->handle);
+			};
+			InitSafely(lambda, parent, &handle);
+			SetPosition(0, 0);
+			SetText("New label");
+			return handle != NULL;
 		}
-
-		
+				
 		void SetText(std::string text)
 		{
-			if (handle == NULL)
-				return;
-			LVGL::mutex.Take();
-			lv_label_set_text(handle, text.c_str());
-			LVGL::mutex.Give();
+			RunSafely(lv_label_set_text, handle, text.c_str());
 		}
 		
 		template<typename ...Args>
 		void SetText(std::string text, Args... args)
 		{
-			if (handle == NULL)
-				return;
-			LVGL::mutex.Take();
-			lv_label_set_text_fmt(handle, text.c_str(), args...);
-			LVGL::mutex.Give();
+			RunSafely(lv_label_set_text_fmt, handle, text.c_str(), args...);
 		}
 		
-		
-		
+		void SetLongMode(lv_label_long_mode_t mode)
+		{
+			RunSafely(lv_label_set_long_mode, handle, mode);
+		}
 	};
 }

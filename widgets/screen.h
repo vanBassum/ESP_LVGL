@@ -7,25 +7,27 @@ namespace ESP_LVGL
 {
 	class Screen : public Widget
 	{
+
 	public:
 		
 		bool Init()
 		{
-			handle = lv_scr_act();
-			return true;
+			auto lambda = [](lv_obj_t** _handle) 
+			{
+				*_handle = lv_scr_act();
+			};
+			InitSafely(lambda, &handle);
+			return handle != NULL;
 		}
 		
 		bool Init(Display* display)
 		{
-			//TODO:
-			//handle = ...
-			//return ESP_OK;
+			//auto lambda = [](lv_obj_t* _handle)	TODO
+			//{
+			//	_handle = lv_scr_act();
+			//};
+			//InitSafely(lambda, handle);
 			return false;
-		}
-		
-		virtual bool Init(Widget* parent) override
-		{
-			return true;
 		}
 	};
 }
