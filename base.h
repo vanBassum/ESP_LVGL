@@ -26,7 +26,7 @@ namespace ESP_LVGL
 					vTaskDelay(pdMS_TO_TICKS(LVGL_HANDLER_TICK_MS));
 				}
 			});
-			task.Run();
+			task.RunPinned(1);
 			
 			timer.Init("LVGL", TimeSpan(LVGL_TIMER_TICK_MS));
 			timer.Bind([](Timer* t) { lv_tick_inc(t->GetPeriod().GetMiliSeconds()); });
