@@ -32,16 +32,18 @@ bool ESP_LVGL::LVGL::_Init()
 
 void ESP_LVGL::LVGL::_Execute(std::function<void()> val)
 {
+	if (coreProtection)
+	{
+		int currentCore = Task::GetCurrentCoreID();
+		if (coreId != currentCore)
+		{
+			ESP_LOGE(TAG, "Called LVGL function from wrong core. Use core %d", coreId);
+			return;
+		}
+	}
+	
 	mutex.Take();
-#ifndef LVGL_DISABLE_CORE_PROTECTION
-	int currentCore = Task::GetCurrentCoreID();
-	if (coreId == currentCore)
-		val();
-	else
-		ESP_LOGE(TAG, "Called LVGL function from wrong core. Use core %d", coreId);
-#else
-		val();
-#endif // LVGL_CORE_PROTECTION
+	val();
 	mutex.Give();
 }
 	

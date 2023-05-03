@@ -8,8 +8,6 @@
 
 #define LVGL_HANDLER_TICK_MS	5	//The timing is not critical but it should be about 5 milliseconds to keep the system responsive.
 #define LVGL_TIMER_TICK_MS		1
-//#define LVGL_DISABLE_CORE_PROTECTION		//When this is defined, lvgl stops throwing ESP_LOGE when functions are called from a different core.
-
 
 namespace ESP_LVGL
 {
@@ -20,6 +18,7 @@ namespace ESP_LVGL
 		Timer timer;
 		Mutex mutex;
 		int coreId = -1;
+		bool coreProtection = true;
 		
 		bool _Init();
 		void _Execute(std::function<void()> val);
@@ -35,6 +34,11 @@ namespace ESP_LVGL
 		{
 			std::function<void()> val{std::bind(func, parameters...)};
 			_Instance._Execute(val);
+		}
+		
+		static void SetCoreProtection(bool enabled)
+		{
+			_Instance.coreProtection = enabled;
 		}
 	};
 	
