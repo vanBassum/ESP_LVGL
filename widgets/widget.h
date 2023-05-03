@@ -2,8 +2,7 @@
 #include "esp_system.h"
 #include "lvgl.h"
 #include "base.h"
-#include <functional>
-#include <type_traits>
+
 
 namespace ESP_LVGL
 {
@@ -14,23 +13,32 @@ namespace ESP_LVGL
 		void RunSafely(Function func, Arguments... parameters)
 		{
 			std::function<void()> val{std::bind(func, parameters...)};
-			LVGL::mutex.Take();
-			if (handle != NULL)
+			auto lambda = [](std::function<void()> _val, lv_obj_t* handle) 
 			{
-				val();
-				if(handle != NULL)
-					handle->user_data = this;
-			}
-			LVGL::mutex.Give();
+				if (handle != NULL)
+				{
+					_val();
+				}
+			};
+			
+			LVGL::Execute(lambda, val, handle);
 		}	
 		
 		template<typename Function, typename... Arguments>
 		void InitSafely(Function func, Arguments... parameters)
 		{
 			std::function<void()> val{std::bind(func, parameters...)};
-			LVGL::mutex.Take();
-			val();
-			LVGL::mutex.Give();
+			auto lambda = [](std::function<void()> _val, lv_obj_t* _handle, Widget* _this) 
+			{
+				if (_handle == NULL)
+				{
+					_val();
+					if (_handle != NULL)
+						_handle->user_data = _this;
+				}
+			};
+			
+			LVGL::Execute(lambda, val, handle, this);
 		}	
 		
 	public:
