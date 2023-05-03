@@ -33,7 +33,7 @@ bool ESP_LVGL::LVGL::_Init()
 void ESP_LVGL::LVGL::_Execute(std::function<void()> val)
 {
 	mutex.Take();
-#ifdef LVGL_CORE_PROTECTION
+#ifndef LVGL_DISABLE_CORE_PROTECTION
 	int currentCore = Task::GetCurrentCoreID();
 	if (coreId == currentCore)
 		val();

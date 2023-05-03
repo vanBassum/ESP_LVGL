@@ -8,7 +8,7 @@
 
 #define LVGL_HANDLER_TICK_MS	5	//The timing is not critical but it should be about 5 milliseconds to keep the system responsive.
 #define LVGL_TIMER_TICK_MS		1
-//#define LVGL_CORE_PROTECTION		//When this is defined, lvgl will throw ESP_LOGE when functions are called from a different core.
+//#define LVGL_DISABLE_CORE_PROTECTION		//When this is defined, lvgl stops throwing ESP_LOGE when functions are called from a different core.
 
 
 namespace ESP_LVGL
