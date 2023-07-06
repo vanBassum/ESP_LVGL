@@ -1,11 +1,11 @@
 #include "display_t6963.h"
 
 
-bool ESP_LVGL::DisplayT6963C::Init(T6963C* glcd)
+ESP_LVGL::DisplayT6963C::DisplayT6963C(T6963C* glcd)
 {
 	this->glcd = glcd;
 	if (glcd == NULL)
-		return false;
+		return;
 			
 	width = glcd->settings.width;
 	height = glcd->settings.width;
@@ -13,7 +13,7 @@ bool ESP_LVGL::DisplayT6963C::Init(T6963C* glcd)
 	bufferSize = width * 10;
 	buffer = (uint8_t*)malloc(bufferSize);
 	if (buffer == NULL)
-		return false;
+		return;
 			
 	lv_disp_draw_buf_init(&disp_buf, buffer, NULL, bufferSize);
 	lv_disp_drv_init(&disp_drv);			
@@ -40,7 +40,7 @@ bool ESP_LVGL::DisplayT6963C::Init(T6963C* glcd)
 	//};
 
 	disp = lv_disp_drv_register(&disp_drv); 
-	return true;
+	return;
 }
 
 void ESP_LVGL::DisplayT6963C::Round_cb(lv_disp_drv_t * disp_drv, lv_area_t * a)
