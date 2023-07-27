@@ -4,10 +4,8 @@ idf_component_register(
 	SRCS
 		base.cpp
 		esp_lvgl.cpp
-		displays/display_st7735.cpp
-		displays/display_t6963.cpp
 	INCLUDE_DIRS
 		.
-		displays
+		interfaces
 		widgets
 	REQUIRES lvgl ESP_Base ESP_Drivers)

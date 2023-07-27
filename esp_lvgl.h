@@ -3,5 +3,5 @@
 #include "base.h"
 #include "esp_lvgl.h"
 
-#include "displays/displays.h"
+#include "interfaces/interfaces.h"
 #include "widgets/widgets.h"

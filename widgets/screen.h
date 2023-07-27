@@ -1,6 +1,6 @@
 #pragma once
 #include "widget.h"
-#include "display.h"
+#include "iglcd.h"
 #include "esp_drivers.h"
 
 namespace ESP_LVGL
@@ -20,7 +20,7 @@ namespace ESP_LVGL
 			return handle != NULL;
 		}
 		
-		bool Init(Display* display)
+		bool Init(IGLCD* display)
 		{
 			//auto lambda = [](lv_obj_t* _handle)	TODO
 			//{

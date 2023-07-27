@@ -5,7 +5,7 @@
 
 namespace ESP_LVGL
 {
-	class Display
+	class IGLCD
 	{
 	public:
 
