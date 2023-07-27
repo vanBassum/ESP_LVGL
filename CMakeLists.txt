@@ -2,10 +2,9 @@
 
 idf_component_register(
 	SRCS
-		base.cpp
-		esp_lvgl.cpp
+		core/mlvgl.cpp
 	INCLUDE_DIRS
 		.
-		interfaces
+		core
 		widgets
 	REQUIRES lvgl ESP_Base ESP_Drivers)
