@@ -14,20 +14,25 @@ namespace ESP_LVGL
 	class LVGL
 	{
 		static LVGL _Instance;
-		Task  task;
+		Task task;
 		Timer timer;
 		Mutex mutex;
 		int coreId = -1;
 		bool coreProtection = true;
 		
-		bool _Init();
 		void _Execute(std::function<void()> val);
-
+		void _Work(Task* task, void* args);
+		void _Start();
+		
+		
 	public:
-		static bool Init() 
+
+		static void Init() 
 		{ 
-			return _Instance._Init();
+			lv_init();
+			_Instance._Start();
 		}
+		
 		
 		template<typename Function, typename... Arguments>
 		static void Execute(Function func, Arguments... parameters)
@@ -41,6 +46,4 @@ namespace ESP_LVGL
 			_Instance.coreProtection = enabled;
 		}
 	};
-	
-	
 }
