@@ -9,9 +9,10 @@ namespace ESP_LVGL
 	public:
 		Screen(lv_obj_t* obj)
 		{
-			LVGL::Execute([&]() {
+			LVGL::ExecuteSafely([&]() {
 				handle = obj;
-			});
+				},
+				"Screen");
 		}
 	};
 }
