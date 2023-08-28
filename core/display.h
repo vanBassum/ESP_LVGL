@@ -13,6 +13,11 @@ namespace ESP_LVGL
 		lv_disp_t* handle = NULL;
 		
 	public:
+		
+		~Display()
+		{
+			delete screen; // Release the memory for the screen object
+		}
 
 		Screen& GetScreen()
 		{
