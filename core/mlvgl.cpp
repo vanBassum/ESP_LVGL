@@ -1,8 +1,5 @@
 #include "mlvgl.h"
 
-Mutex ESP_LVGL::LVGL::singletonMutex;
-ESP_LVGL::LVGL* ESP_LVGL::LVGL::instance {NULL};
-
 ESP_LVGL::LVGL::LVGL()
 {
 	lv_init();
@@ -23,13 +20,13 @@ ESP_LVGL::LVGL::LVGL()
 
 void ESP_LVGL::LVGL::Work(Task* task, void* args)
 {
-	mutex.Take("GetCurrentCoreID");
+	mutex.Take();
 	coreId = Task::GetCurrentCoreID();	//Note the coreId.
 	mutex.Give();
 	ESP_LOGE(TAG, "LVGL running on core %d", coreId);
 	while (1)
 	{
-		if (mutex.Take("LVGL Work", pdMS_TO_TICKS(1000)))
+		if (mutex.Take(pdMS_TO_TICKS(1000)))
 		{
 			lv_timer_handler();
 			mutex.Give();
@@ -42,15 +39,15 @@ void ESP_LVGL::LVGL::Work(Task* task, void* args)
 }
 
 
-void ESP_LVGL::LVGL::ExecuteSafely(std::function<void()> function, const char* d)
+void ESP_LVGL::LVGL::ExecuteSafely(std::function<void()> function)
 {
-	return GetOrCreateInstance().Execute(function, d);
+	return GetOrCreateInstance().Execute(function);
 }
 
 
-void ESP_LVGL::LVGL::Execute(std::function<void()> function, const char* d)
+void ESP_LVGL::LVGL::Execute(std::function<void()> function)
 {
-	if (mutex.Take(d, pdMS_TO_TICKS(1000)))
+	if (mutex.Take(pdMS_TO_TICKS(1000)))
 	{
 		if (coreId != Task::GetCurrentCoreID())
 			ESP_LOGE(TAG, "Called LVGL function from wrong core. Use core %d", coreId);
@@ -66,10 +63,7 @@ void ESP_LVGL::LVGL::Execute(std::function<void()> function, const char* d)
 
 ESP_LVGL::LVGL& ESP_LVGL::LVGL::GetOrCreateInstance()
 {
-	singletonMutex.Take();
-	if (instance == NULL)
-		instance = new LVGL();
-	singletonMutex.Give();
-	return *instance;
+	static LVGL instance;  // Constructed on first use
+	return instance;
 }
 

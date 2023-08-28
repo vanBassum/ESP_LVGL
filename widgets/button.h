@@ -11,8 +11,7 @@ namespace ESP_LVGL
 		{
 			LVGL::ExecuteSafely([&]() {
 				handle = lv_btn_create(parent.handle);
-				},
-				"Button");
+			});
 		}
 	};
 }

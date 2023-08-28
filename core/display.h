@@ -19,8 +19,7 @@ namespace ESP_LVGL
 			LVGL::ExecuteSafely([&]() {
 				if(screen == NULL)
 					screen = new Screen(lv_disp_get_scr_act(handle));
-			},
-				"GetScreen");
+			});
 			
 			return *screen;
 		}

@@ -11,16 +11,14 @@ namespace ESP_LVGL
 		{
 			LVGL::ExecuteSafely([&]() {
 				handle = lv_label_create(parent.handle);
-				},
-				"Label");
+				});
 		}
 		
 		void SetText(std::string text)
 		{
 			LVGL::ExecuteSafely([&]() {
 				lv_label_set_text(handle, text.c_str());
-				},
-				"SetText");
+				});
 		}
 		
 		template<typename ...Args>
@@ -28,16 +26,14 @@ namespace ESP_LVGL
 		{
 			LVGL::ExecuteSafely([&]() {
 				lv_label_set_text_fmt(handle, text.c_str(), args...);
-				},
-				"SetText");
+				});
 		}
 		
 		void SetLongMode(lv_label_long_mode_t mode)
 		{
 			LVGL::ExecuteSafely([&]() {
 				lv_label_set_long_mode(handle, mode);
-				},
-				"SetLongMode");
+				});
 		}
 		
 	};
