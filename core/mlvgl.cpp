@@ -3,13 +3,10 @@
 ESP_LVGL::LVGL::LVGL()
 {
 	lv_init();
-	
-	static TaskHandle_t handle;
-	xTaskCreatePinnedToCore([](void* args){((ESP_LVGL::LVGL*)args)->Work(NULL, NULL);}, "test", 2048*4, this, 2, &handle, 0);
-	
-	//task.Init("LVGL", 2, 2048 * 4);
-	//task.Bind(this, &ESP_LVGL::LVGL::Work);
-	//task.RunPinned(1);
+
+	task.Init("LVGL", 2, 2048 * 4);
+	task.Bind(this, &ESP_LVGL::LVGL::Work);
+	task.RunPinned(0);
 			
 	timer.Init("LVGL", TimeSpan(LVGL_TIMER_TICK_MS));
 	timer.Bind([](Timer* t) { lv_tick_inc(t->GetPeriod().GetMiliSeconds()); });
@@ -23,7 +20,7 @@ void ESP_LVGL::LVGL::Work(Task* task, void* args)
 	mutex.Take();
 	coreId = Task::GetCurrentCoreID();	//Note the coreId.
 	mutex.Give();
-	ESP_LOGE(TAG, "LVGL running on core %d", coreId);
+	ESP_LOGE(TAG, "Running on core %d", coreId);
 	while (1)
 	{
 		if (mutex.Take(pdMS_TO_TICKS(1000)))
