@@ -18,7 +18,7 @@ namespace ESP_LVGL
 		int coreId = -1;
 		Task task;
 		Timer timer;	
-		Mutex mutex;
+		RecursiveMutex mutex;
 
 		LVGL();
 		void Work(Task* task, void* args);
