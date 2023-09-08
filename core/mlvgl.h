@@ -21,7 +21,7 @@ namespace ESP_LVGL
 		RecursiveMutex mutex;
 
 		LVGL();
-		void Work(Task* task, void* args);
+		void Work();
 		void Execute(std::function<void()> function);
 		
 	public:

@@ -5,17 +5,17 @@ ESP_LVGL::LVGL::LVGL()
 	lv_init();
 
 	task.Init("LVGL", 2, 2048 * 4);
-	task.Bind(this, &ESP_LVGL::LVGL::Work);
+	task.SetHandler([&](Task* task, void* args){this->Work();});
 	task.RunPinned(0);
 			
 	timer.Init("LVGL", TimeSpan(LVGL_TIMER_TICK_MS));
-	timer.Bind([](Timer* t) { lv_tick_inc(t->GetPeriod().GetMiliSeconds()); });
+	timer.SetHandler([](Timer* t) { lv_tick_inc(t->GetPeriod().GetMiliSeconds()); });
 	timer.Start();
 }
 
 
 
-void ESP_LVGL::LVGL::Work(Task* task, void* args)
+void ESP_LVGL::LVGL::Work()
 {
 	mutex.Take();
 	coreId = Task::GetCurrentCoreID();	//Note the coreId.
