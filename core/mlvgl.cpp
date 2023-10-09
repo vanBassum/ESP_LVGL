@@ -20,7 +20,7 @@ void ESP_LVGL::LVGL::Work()
 	mutex.Take();
 	coreId = Task::GetCurrentCoreID();	//Note the coreId.
 	mutex.Give();
-	ESP_LOGE(TAG, "Running on core %d", coreId);
+	ESP_LOGI(TAG, "Running on core %d", coreId);
 	while (1)
 	{
 		if (mutex.Take(pdMS_TO_TICKS(1000)))
