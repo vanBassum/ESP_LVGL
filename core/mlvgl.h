@@ -3,10 +3,11 @@
 #include "kernel.h"
 #include "esp_log.h"
 #include "lvgl.h"
+#include "lvgl/lvgl.h"
 #include <functional>
 #include <type_traits>
 
-#define LVGL_HANDLER_TICK_MS	5	//The timing is not critical but it should be about 5 milliseconds to keep the system responsive.
+#define LVGL_HANDLER_TICK_MS	20	//The timing is not critical but it should be about 5 milliseconds to keep the system responsive.
 #define LVGL_TIMER_TICK_MS		1
 
 namespace ESP_LVGL

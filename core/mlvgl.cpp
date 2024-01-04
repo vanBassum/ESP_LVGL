@@ -4,7 +4,7 @@ ESP_LVGL::LVGL::LVGL()
 {
 	lv_init();
 
-	task.Init("LVGL", 2, 2048 * 4);
+	task.Init("LVGL", 2, 1024 * 4);
 	task.SetHandler([&](Task* task, void* args){this->Work();});
 	task.RunPinned(0);
 			
