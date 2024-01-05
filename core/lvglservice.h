@@ -28,67 +28,18 @@ namespace ESP_LVGL
         RecursiveMutex mutex;
         
         Config config = {};
+
+        void Work();
         
     public:
-        LVGLService()
-        {
-            assert(instances == 0); 	//This ensures only 1 instance can be initialized
-            instances++;
-        }
+        LVGLService();
         ~LVGLService() = default;
         
-        void init()
-        {
-            assert(!initialized);
-            lv_init();
-            
-            task.Init("LVGL", 2, 1024 * 4);
-            task.SetHandler([&](){this->Work();});
-            task.RunPinned(0);
-                    
-            timer.Init("LVGL", config.taskIntervalms);
-            timer.SetHandler([&](){ lv_tick_inc(config.taskIntervalms); });
-            timer.Start();
-            
-            initialized = true;
-        }
-        
-        void setConfig(const Config& newConfig)
-        {
-            assert(!initialized);
-            config = newConfig;
-        }
-
-        void Work()
-        {
-            while (1)
-            {
-                {
-                    ContextLock lock(mutex);
-                    if (coreId == -1)
-                    {
-                        coreId = Task::GetCurrentCoreID();
-                        ESP_LOGI(TAG, "Running on core %d", coreId);
-                    }
-                    
-                    lv_timer_handler();
-                }
-                vTaskDelay(pdMS_TO_TICKS(config.taskIntervalms));
-            }
-
-        }
-        
-        
-        void ExecuteSafely(std::function<void()> function)
-        {
-            ContextLock lock(mutex);
-            if (coreId != Task::GetCurrentCoreID())
-                ESP_LOGE(TAG, "Called LVGL function from wrong core. Use core %d", coreId);
-            function();	
-        }
+        void init();
+        void setConfig(const Config& newConfig);
+        void executeSafely(std::function<void()> function);
 
     };
-    
-    int LVGLService::instances = 0;
+
 }
 

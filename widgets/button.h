@@ -9,7 +9,7 @@ namespace ESP_LVGL
 	public:
 		Button(Widget& parent) : Widget(parent.lvgl)
 		{
-			lvgl->ExecuteSafely([&]() {
+			lvgl->executeSafely([&]() {
 				handle = lv_btn_create(parent.handle);
 			});
 		}

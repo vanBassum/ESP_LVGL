@@ -2,6 +2,8 @@
 
 idf_component_register(
 	SRCS
+		core/display.cpp
+		core/lvglservice.cpp
 	INCLUDE_DIRS
 		.
 		core

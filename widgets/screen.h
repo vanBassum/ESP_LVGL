@@ -9,8 +9,8 @@ namespace ESP_LVGL
 	public:
 		Screen(std::shared_ptr<LVGLService> lvgl) : Widget(lvgl)
 		{
-			lvgl->ExecuteSafely([&]() {
-				handle = lv_obj_create(NULL, NULL);
+			lvgl->executeSafely([&]() {
+				handle = lv_obj_create(NULL);
 			});
 		}
 	};
