@@ -15,8 +15,8 @@ namespace ESP_LVGL
         constexpr static const char* TAG = "LVGLService";
     public:
         struct Config {
-            ticktype_t timerIntervalms = 1;
-            ticktype_t taskIntervalms = 20;
+            uint32_t timerIntervalms = 1;
+            uint32_t taskIntervalms = 20;
         };
         
     private:
@@ -47,7 +47,7 @@ namespace ESP_LVGL
             task.RunPinned(0);
                     
             timer.Init("LVGL", config.taskIntervalms);
-            timer.SetHandler([]() { lv_tick_inc(t->GetPeriod().GetMiliSeconds()); });
+            timer.SetHandler([&](){ lv_tick_inc(config.taskIntervalms); });
             timer.Start();
             
             initialized = true;
@@ -64,7 +64,7 @@ namespace ESP_LVGL
             while (1)
             {
                 {
-                    ContextLock(mutex);
+                    ContextLock lock(mutex);
                     if (coreId == -1)
                     {
                         coreId = Task::GetCurrentCoreID();
@@ -81,13 +81,14 @@ namespace ESP_LVGL
         
         void ExecuteSafely(std::function<void()> function)
         {
-            ContextLock(mutex);
+            ContextLock lock(mutex);
             if (coreId != Task::GetCurrentCoreID())
                 ESP_LOGE(TAG, "Called LVGL function from wrong core. Use core %d", coreId);
             function();	
         }
 
     };
+    
+    int LVGLService::instances = 0;
 }
 
-int LVGLService::instances = 0;

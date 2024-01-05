@@ -1,6 +1,6 @@
 #pragma once
 #include "esp_system.h"
-#include "mlvgl.h"
+#include "../core/lvglservice.h"
 
 namespace ESP_LVGL
 {
@@ -11,7 +11,7 @@ namespace ESP_LVGL
 		lv_obj_t* handle = NULL;
 
 	public:    
-		virtual Widget(std::shared_ptr<LVGLService> lvgl) : lvgl(lvgl) {
+		Widget(std::shared_ptr<LVGLService> lvgl) : lvgl(lvgl) {
 
 		}
 

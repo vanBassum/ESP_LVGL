@@ -7,10 +7,10 @@ namespace ESP_LVGL
 	class Screen : public Widget
 	{
 	public:
-		Screen(lv_obj_t* obj)
+		Screen(std::shared_ptr<LVGLService> lvgl) : Widget(lvgl)
 		{
-			LVGL::ExecuteSafely([&]() {
-				handle = obj;
+			lvgl->ExecuteSafely([&]() {
+				handle = lv_obj_create(NULL, NULL);
 			});
 		}
 	};
