@@ -2,7 +2,6 @@
 
 idf_component_register(
 	SRCS
-		core/mlvgl.cpp
 	INCLUDE_DIRS
 		.
 		core

@@ -6,12 +6,18 @@ namespace ESP_LVGL
 {
 	class Widget
 	{
-	public:    
+	protected:
+		std::shared_ptr<LVGLService> lvgl;
 		lv_obj_t* handle = NULL;
-		
+
+	public:    
+		virtual Widget(std::shared_ptr<LVGLService> lvgl) : lvgl(lvgl) {
+
+		}
+
 		virtual ~Widget() 
 		{
-			LVGL::ExecuteSafely([&]() 
+			lvgl->ExecuteSafely([&]() 
 			{
 				lv_obj_del_async(handle);
 			});	
@@ -19,7 +25,7 @@ namespace ESP_LVGL
 
 		void SetPosition(int x, int y)	
 		{ 
-			LVGL::ExecuteSafely([&]() 
+			lvgl->ExecuteSafely([&]() 
 			{
 				lv_obj_set_pos(handle, x, y);
 			});	
@@ -27,7 +33,7 @@ namespace ESP_LVGL
 
 		void SetSize(int width, int height)	
 		{ 
-			LVGL::ExecuteSafely([&]() 
+			lvgl->ExecuteSafely([&]() 
 			{
 				lv_obj_set_size(handle, width, height);
 			});
@@ -35,7 +41,7 @@ namespace ESP_LVGL
 		
 		void SetAlign(lv_align_t align, lv_coord_t x_ofs, lv_coord_t y_ofs) 
 		{ 
-			LVGL::ExecuteSafely([&]() 
+			lvgl->ExecuteSafely([&]() 
 			{
 				lv_obj_align(handle, align, x_ofs, y_ofs);
 			});
