@@ -35,7 +35,7 @@ void ESP_LVGL::Display::init() {
         // Create a display and set a flush_cb
         handle = lv_display_create(config.width, config.height);
         lv_display_set_flush_cb(handle, staticFlushCallback);
-        lv_display_set_draw_buffers(handle, disp_buf.get(), nullptr, config.bufferSize, LV_DISPLAY_RENDER_MODE_PARTIAL);
+        //lv_display_set_draw_buffers(handle, disp_buf.get(), nullptr, config.bufferSize, LV_DISPLAY_RENDER_MODE_PARTIAL);
     });
 
     handle->user_data = this;
