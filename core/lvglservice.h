@@ -1,6 +1,6 @@
 #pragma once
 #include "esp_system.h"
-#include "kernel.h"
+#include "rtos.h"
 #include "esp_log.h"
 #include "lvgl.h"
 #include "lvgl/lvgl.h"
